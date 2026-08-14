@@ -1,41 +1,108 @@
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
-import { Plus } from 'lucide-react'
+import {
+  Plus,
+  Eye,
+  Check,
+} from 'lucide-react'
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
 
   return (
-    <div className="bg-neutral-900 rounded-2xl overflow-hidden">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="h-48 w-full object-cover"
-      />
+    <article className="overflow-hidden rounded-[26px] border border-white/10 bg-[#080808]">
 
-      <div className="p-4">
-        <h2 className="text-xl font-bold text-white">{product.name}</h2>
+      <Link
+        to={`/producto?id=${encodeURIComponent(product.id)}`}
+        className="block"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
 
-        <p className="text-neutral-400 text-sm">{product.desc}</p>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full object-cover"
+          />
 
-        <div className="flex justify-between mt-4 items-center">
-          <span className="text-yellow-400 font-bold">${product.price}</span>
+          <div className="absolute left-3 top-3">
 
-          <button
-            onClick={() => addToCart(product)}
-            className="bg-yellow-400 px-4 py-2 rounded-xl font-black text-black hover:bg-yellow-300 transition-colors duration-200 hover:animate-bounce flex items-center justify-center"
-            aria-label={`Agregar ${product.name}`}
-          >
-            <Plus size={20} />
-          </button>
+            <span className="flex items-center gap-1.5 rounded-full bg-[#D9FF00] px-2.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-black shadow-lg">
+
+              <Check
+                size={12}
+                strokeWidth={3}
+              />
+
+              Disponible
+
+            </span>
+
+          </div>
+
+        </div>
+      </Link>
+
+
+      <div className="p-4 sm:p-5">
+
+        <div className="min-w-0">
+
+          <h2 className="text-lg font-black leading-tight text-white sm:text-xl">
+            {product.name}
+          </h2>
+
+          {product.desc && (
+            <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-neutral-500">
+              {product.desc}
+            </p>
+          )}
+
         </div>
 
-        <Link to={`/producto?id=${encodeURIComponent(product.id)}`}>
-          <span className="block w-full mt-3 bg-white/10 py-2 rounded-lg text-white text-center">
-            Ver detalle
-          </span>
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+
+          <div>
+
+            <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-600">
+              Precio
+            </p>
+
+            <p className="mt-0.5 text-2xl font-black text-[#FFD400]">
+              ${Number(product.price).toLocaleString()}
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            onClick={() => addToCart(product)}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F700C6] text-white shadow-lg shadow-[#F700C6]/10 transition hover:bg-[#ff25d4] active:scale-95"
+            aria-label={`Agregar ${product.name}`}
+          >
+            <Plus
+              size={23}
+              strokeWidth={2.5}
+            />
+          </button>
+
+        </div>
+
+
+        <Link
+          to={`/producto?id=${encodeURIComponent(product.id)}`}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2.5 text-xs font-bold text-neutral-300 transition hover:bg-white/10 hover:text-white"
+        >
+
+          <Eye size={15} />
+
+          Ver detalle
+
         </Link>
+
       </div>
-    </div>
+
+    </article>
   )
 }
